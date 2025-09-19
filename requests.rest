@@ -1,10 +1,61 @@
-GET http://localhost:3000/posts
-Authorization: Bearer 7488b78bdd94e406fba64394386b5f441dc7751c724598c87f818caab703b695a3bd610c04131afb075bbacb1a3c06bdf0d85934a096f5ffa256581332fa16e9
+### API Information
+GET http://localhost:3000/
+
 ###
 
+### Health Check
+GET http://localhost:3000/health
+
+###
+
+### Login to get JWT token
 POST http://localhost:3000/login
 Content-Type: application/json
 
 {
     "username": "Rodrigo"
 }
+
+###
+
+### Login as another user
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username": "Audrey"
+}
+
+###
+
+### Get all posts (public)
+GET http://localhost:3000/posts/all
+
+###
+
+### Get user posts (protected) - Replace with your actual token
+GET http://localhost:3000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiUm9kcmlnbyIsImlhdCI6MTcwMDAwMDAwMH0.example
+
+###
+
+### Create new post (protected) - Replace with your actual token
+POST http://localhost:3000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiUm9kcmlnbyIsImlhdCI6MTcwMDAwMDAwMH0.example
+Content-Type: application/json
+
+{
+    "title": "My New Post",
+    "content": "This is the content of my new post!"
+}
+
+###
+
+### Test invalid token
+GET http://localhost:3000/posts
+Authorization: Bearer invalid_token_here
+
+###
+
+### Test missing token
+GET http://localhost:3000/posts
