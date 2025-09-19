@@ -11,8 +11,26 @@ A modern JWT authentication system built with Node.js and Express.js that provid
 - **Error Handling**: Detailed error messages and proper HTTP status codes
 - **Real-time Feedback**: Informative server logs and API responses
 
+## 📸 Screenshots & Demo
+
+### Interactive Web Interface
+The application features a beautiful, modern web interface that allows you to test all API endpoints interactively:
+
+![Interactive Web Interface](https://github.com/user-attachments/assets/46b6a681-16cd-4047-84c5-0642bfecc4f9)
+
+### Complete Workflow Demo
+Experience the full JWT authentication flow from login to protected resource access:
+
+![Complete Workflow Demo](https://github.com/user-attachments/assets/e1095804-e293-470f-882c-ec56003855f9)
+
+### Live Demo Interface
+Here's the current interface in action, showing successful authentication and API interaction:
+
+![JWT Auth Live Demo](https://github.com/user-attachments/assets/5e6d847f-b094-410f-9ede-eadceb64cd2a)
+
 ## 📋 Table of Contents
 
+- [Screenshots & Demo](#screenshots--demo)
 - [Quick Start](#quick-start)
 - [API Endpoints](#api-endpoints)
 - [Authentication Flow](#authentication-flow)
