@@ -2,7 +2,7 @@
 
 A modern JWT authentication system built with Node.js and Express.js that provides secure token-based authentication with interactive API endpoints.
 
-  <p align="center"><img src="https://private-user-images.githubusercontent.com/59088238/491308888-46b6a681-16cd-4047-84c5-0642bfecc4f9.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTgzMjAwODgsIm5iZiI6MTc1ODMxOTc4OCwicGF0aCI6Ii81OTA4ODIzOC80OTEzMDg4ODgtNDZiNmE2ODEtMTZjZC00MDQ3LTg0YzUtMDY0MmJmZWNjNGY5LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA5MTklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwOTE5VDIyMDk0OFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWFiZDYyNzQxMGQxODY1MTRmNTQzZTAzOTAxNDJlOTQ4Y2RkODNjNmE4YjM1OTZkYzVhMjE2ZGVhZWMzN2E4ZGYmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.QI-G5kD2gtpEgSMHPTF_QsoF81f-pL0n2T7ctrCBuwM" alt="JWT protected route and post example" width="400" /></p>
+![Interactive Web Interface](https://github.com/user-attachments/assets/46b6a681-16cd-4047-84c5-0642bfecc4f9)
 
 ## 🚀 Features
 
