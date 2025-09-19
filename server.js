@@ -12,6 +12,9 @@ expressApp.use(express.static('public'));
 
 const jwt = require('jsonwebtoken');
 
+// Middleware to parse JSON bodies
+expressApp.use(express.json());
+
 const posts = [
     {
         username: "Rodrigo",
