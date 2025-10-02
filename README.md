@@ -2,7 +2,9 @@
 
 A modern JWT authentication system built with Node.js and Express.js that provides secure token-based authentication with interactive API endpoints.
 
-![Interactive Web Interface](https://github.com/user-attachments/assets/46b6a681-16cd-4047-84c5-0642bfecc4f9)
+<!-- ![Interactive Web Interface](https://github.com/user-attachments/assets/46b6a681-16cd-4047-84c5-0642bfecc4f9) -->
+<img alt="screencapture-localhost-3000-2025-10-02-20_01_15" src="https://github.com/user-attachments/assets/a4146d9d-f304-4ab5-823b-a62d7fbc4d62" />
+
 
 ## Architecture Overview
 
