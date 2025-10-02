@@ -243,7 +243,7 @@
                     <input type="text" id="username" placeholder="Enter your username" value="Rodrigo">
                 </div>
                 
-                <button onclick="login()">Login & Get Token</button>
+                <button onclick="sign()">Sign In & Get Token</button>
                 <button onclick="checkHealth()">Check API Health</button>
                 <button onclick="getApiInfo()">Get API Info</button>
                 
@@ -269,9 +269,9 @@
                 </div>
                 
                 <div class="endpoint-buttons">
-                    <button onclick="getUserPosts()">Get My Posts</button>
-                    <button onclick="getAllPosts()">Get All Posts</button>
-                    <button onclick="createPost()">Create New Post</button>
+                    <button onclick="getUserPosts()">Get My Posts (Auth Required)</button>
+                    <button onclick="getAllPosts()">Get All Posts (Auth Required)</button>
+                    <button onclick="createPost()">Create New Post (Public)</button>
                 </div>
                 
                 <div id="postsResponse" class="response" style="display: none;"></div>
@@ -324,7 +324,7 @@
             }
         }
         
-        async function login() {
+        async function sign() {
             const username = document.getElementById('username').value.trim();
             
             if (!username) {
@@ -332,7 +332,7 @@
                 return;
             }
             
-            const result = await makeRequest(`${apiBase}/login`, {
+            const result = await makeRequest(`${apiBase}/sign`, {
                 method: 'POST',
                 body: JSON.stringify({ username })
             });
@@ -357,7 +357,7 @@
         
         async function getUserPosts() {
             if (!currentToken) {
-                showResponse('postsResponse', { error: 'Please login first to get a token' }, true);
+                showResponse('postsResponse', { error: 'Please sign in first to get a token' }, true);
                 return;
             }
             
@@ -366,27 +366,28 @@
         }
         
         async function getAllPosts() {
-            const result = await makeRequest(`${apiBase}/posts/all`);
-            showResponse('postsResponse', result.data || { error: result.error }, !result.ok);
-        }
-        
-        async function createPost() {
             if (!currentToken) {
                 showResponse('postsResponse', { error: 'Please login first to get a token' }, true);
                 return;
             }
             
+            const result = await makeRequest(`${apiBase}/posts/all`);
+            showResponse('postsResponse', result.data || { error: result.error }, !result.ok);
+        }
+        
+        async function createPost() {
             const title = document.getElementById('postTitle').value.trim();
             const content = document.getElementById('postContent').value.trim();
+            const username = document.getElementById('username').value.trim();
             
-            if (!title || !content) {
-                showResponse('postsResponse', { error: 'Please enter both title and content' }, true);
+            if (!title || !content || !username) {
+                showResponse('postsResponse', { error: 'Please enter title, content, and username' }, true);
                 return;
             }
             
             const result = await makeRequest(`${apiBase}/posts`, {
                 method: 'POST',
-                body: JSON.stringify({ title, content })
+                body: JSON.stringify({ title, content, username })
             });
             
             if (result.ok) {

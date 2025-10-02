@@ -33,27 +33,27 @@ expressApp.get('/posts', authenticateToken, (req, res) => {
     res.json(posts.filter(post => post.username === req.user.name))
 })
 
-// Get all posts (public route for demonstration)
-expressApp.get('/posts/all', (req, res) => {
+// Get all posts (protected route)
+expressApp.get('/posts/all', authenticateToken, (req, res) => {
     res.json({
-        message: 'All posts (public access)',
+        message: 'All posts (requires authentication)',
         posts: posts
     });
 })
 
-// Create a new post (protected route)
-expressApp.post('/posts', authenticateToken, (req, res) => {
-    const { title, content } = req.body;
+// Create a new post (public route)
+expressApp.post('/posts', (req, res) => {
+    const { title, content, username } = req.body;
     
-    if (!title || !content) {
+    if (!title || !content || !username) {
         return res.status(400).json({
             error: 'Missing required fields',
-            message: 'Both title and content are required'
+            message: 'Title, content, and username are required'
         });
     }
     
     const newPost = {
-        username: req.user.name,
+        username,
         title,
         content,
         timestamp: new Date().toISOString()
@@ -82,10 +82,10 @@ expressApp.get('/api', (req, res) => {
         message: 'JWT Authentication API',
         version: '1.0.0',
         endpoints: {
-            'POST /login': 'Login to get JWT token',
+            'POST /sign': 'Sign in to get JWT token',
             'GET /posts': 'Get user posts (requires authentication)',
-            'GET /posts/all': 'Get all posts (public)',
-            'POST /posts': 'Create new post (requires authentication)',
+            'GET /posts/all': 'Get all posts (requires authentication)',
+            'POST /posts': 'Create new post (public - no auth required)',
             'GET /health': 'Health check',
             'GET /api': 'API information'
         },
@@ -103,10 +103,10 @@ expressApp.get('/', (req, res) => {
             message: 'JWT Authentication API',
             version: '1.0.0',
             endpoints: {
-                'POST /login': 'Login to get JWT token',
+                'POST /sign': 'Sign in to get JWT token',
                 'GET /posts': 'Get user posts (requires authentication)',
-                'GET /posts/all': 'Get all posts (public)',
-                'POST /posts': 'Create new post (requires authentication)',
+                'GET /posts/all': 'Get all posts (requires authentication)',
+                'POST /posts': 'Create new post (public - no auth required)',
                 'GET /health': 'Health check',
                 'GET /api': 'API information'
             },
@@ -120,8 +120,8 @@ expressApp.get('/', (req, res) => {
     }
 })
 
-// Login endpoint to get JWT token
-expressApp.post('/login', (req, res) => {
+// Sign endpoint to get JWT token
+expressApp.post('/sign', (req, res) => {
     // Basic validation
     const { username } = req.body;
     
@@ -140,7 +140,7 @@ expressApp.post('/login', (req, res) => {
     
     res.json({ 
         accessToken: accessToken,
-        message: `Successfully generated token for ${username}`,
+        message: `Successfully signed in as ${username}`,
         user: user
     });
 })
@@ -176,10 +176,10 @@ expressApp.listen(port, () => {
     console.log('📚 Available endpoints:');
     console.log('   GET  /              - Web interface or API info (based on Accept header)');
     console.log('   GET  /api           - API information (JSON)');
-    console.log('   POST /login         - Get JWT token');
+    console.log('   POST /sign         - Get JWT token');
     console.log('   GET  /posts         - Get user posts (protected)');
-    console.log('   GET  /posts/all     - Get all posts (public)');
-    console.log('   POST /posts         - Create new post (protected)');
+    console.log('   GET  /posts/all     - Get all posts (protected)');
+    console.log('   POST /posts         - Create new post (public)');
     console.log('   GET  /health        - Health check');
     console.log('🔑 Don\'t forget to set your environment variables!');
     console.log('📖 See README.md for detailed usage instructions');

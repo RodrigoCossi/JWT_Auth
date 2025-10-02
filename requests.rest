@@ -8,8 +8,8 @@ GET http://localhost:3000/health
 
 ###
 
-### Login to get JWT token
-POST http://localhost:3000/login
+### Sign in to get JWT token
+POST http://localhost:3000/sign
 Content-Type: application/json
 
 {
@@ -18,18 +18,13 @@ Content-Type: application/json
 
 ###
 
-### Login as another user
-POST http://localhost:3000/login
+### Sign in as another user
+POST http://localhost:3000/sign
 Content-Type: application/json
 
 {
     "username": "Audrey"
 }
-
-###
-
-### Get all posts (public)
-GET http://localhost:3000/posts/all
 
 ###
 
@@ -39,14 +34,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiUm9kcmlnb
 
 ###
 
-### Create new post (protected) - Replace with your actual token
-POST http://localhost:3000/posts
+### Get all posts (protected) - Replace with your actual token
+GET http://localhost:3000/posts/all
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiUm9kcmlnbyIsImlhdCI6MTcwMDAwMDAwMH0.example
+
+###
+
+### Create new post (public - no auth required)
+POST http://localhost:3000/posts
 Content-Type: application/json
 
 {
-    "title": "My New Post",
-    "content": "This is the content of my new post!"
+    "title": "My New Public Post",
+    "content": "This is the content of my new post!",
+    "username": "Rodrigo"
 }
 
 ###

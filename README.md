@@ -15,8 +15,8 @@ sequenceDiagram
 
     Note over Client,Protected_Resource: JWT Authentication Flow
 
-    %% Login Flow
-    Client->>Server: POST /login<br/>{username: "user"}
+    %% Sign in Flow
+    Client->>Server: POST /sign<br/>{username: "user"}
     Server->>Server: Generate JWT Token<br/>jwt.sign(user, secret)
     Server-->>Client: {accessToken: "jwt_token"}
 
@@ -38,16 +38,19 @@ sequenceDiagram
 
 ## API Endpoints
 
-- **POST `/login`** - Authenticate user and receive JWT token
-- **GET `/posts`** - Access protected resource (requires valid JWT token)
+- **POST `/sign`** - Authenticate user and receive JWT token
+- **GET `/posts`** - Get user-specific posts (requires authentication)
+- **GET `/posts/all`** - Get all posts (requires authentication)
+- **POST `/posts`** - Create new post (public, no authentication required)
 
 ## Authentication Flow
 
-1. **Login**: Client sends credentials to `/login` endpoint
+1. **Sign In**: Client sends credentials to `/sign` endpoint
 2. **Token Generation**: Server creates JWT token with user information
 3. **Token Storage**: Client stores the received JWT token
-4. **Protected Requests**: Client includes token in `Authorization: Bearer <token>` header
-5. **Token Validation**: Server middleware validates token before granting access
+4. **Protected Requests**: Client includes token in `Authorization: Bearer <token>` header for viewing posts
+5. **Token Validation**: Server middleware validates token before granting access to protected routes
+6. **Public Actions**: Post creation is public and only requires username in request body
 6. **Access Control**: Valid tokens grant access, invalid/missing tokens are rejected
 
 ## 🚀 Features
@@ -125,21 +128,21 @@ sequenceDiagram
 |--------|----------|-------------|
 | `GET` | `/` | API information and available endpoints |
 | `GET` | `/health` | Health check and server status |
-| `POST` | `/login` | Login and receive JWT token |
-| `GET` | `/posts/all` | Get all posts (public access) |
+| `POST` | `/sign` | Sign in and receive JWT token |
+| `POST` | `/posts` | Create a new post (requires username) |
 
 ### Protected Endpoints (Require Authentication)
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `GET` | `/posts` | Get posts for authenticated user |
-| `POST` | `/posts` | Create a new post |
+| `GET` | `/posts/all` | Get all posts |
 
 ## 🔐 Authentication Flow
 
-### 1. Login to Get Token
+### 1. Sign In to Get Token
 ```bash
-POST /login
+POST /sign
 Content-Type: application/json
 
 {
@@ -200,14 +203,21 @@ openssl rand -hex 64
    curl http://localhost:3000/health
    ```
 
-2. **Login to get a token:**
+2. **Sign in to get a token:**
    ```bash
-   curl -X POST http://localhost:3000/login \
+   curl -X POST http://localhost:3000/sign \
      -H "Content-Type: application/json" \
      -d '{"username": "Rodrigo"}'
    ```
 
-3. **Store the token and make authenticated requests:**
+3. **Create a post (no authentication required):**
+   ```bash
+   curl -X POST http://localhost:3000/posts \
+     -H "Content-Type: application/json" \
+     -d '{"title": "My Post", "content": "Great content!", "username": "Rodrigo"}'
+   ```
+
+4. **Get posts (requires authentication):**
    ```bash
    # Store token in variable
    TOKEN=$(curl -s -X POST http://localhost:3000/login \
@@ -217,11 +227,8 @@ openssl rand -hex 64
    # Get user's posts
    curl -H "Authorization: Bearer $TOKEN" http://localhost:3000/posts
    
-   # Create a new post
-   curl -X POST http://localhost:3000/posts \
-     -H "Authorization: Bearer $TOKEN" \
-     -H "Content-Type: application/json" \
-     -d '{"title": "My New Post", "content": "This is amazing content!"}'
+   # Get all posts
+   curl -H "Authorization: Bearer $TOKEN" http://localhost:3000/posts/all
    ```
 
 ## 🧪 Testing with cURL
@@ -251,18 +258,22 @@ curl http://localhost:3000/posts  # No token
 
 ### Test Post Creation
 ```bash
-# Login and create post in one workflow
+# Create a post without authentication (public endpoint)
+curl -X POST http://localhost:3000/posts \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Public Post", 
+    "content": "Anyone can create this!",
+    "username": "TestUser"
+  }'
+
+# Get posts (requires authentication)
 TOKEN=$(curl -s -X POST http://localhost:3000/login \
   -H "Content-Type: application/json" \
   -d '{"username": "TestUser"}' | jq -r '.accessToken')
 
-curl -X POST http://localhost:3000/posts \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "API Test Post", 
-    "content": "Testing the API functionality!"
-  }'
+curl -H "Authorization: Bearer $TOKEN" http://localhost:3000/posts
+curl -H "Authorization: Bearer $TOKEN" http://localhost:3000/posts/all
 ```
 
 ## 🔒 Security Features
@@ -313,7 +324,7 @@ node -e "require('dotenv').config(); console.log('ACCESS_TOKEN_SECRET:', process
 
 ## 📝 API Response Examples
 
-### Successful Login Response
+### Successful Sign In Response
 ```json
 {
   "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiUm9kcmlnbyIsImlhdCI6MTcwMDAwMDAwMH0.signature",
