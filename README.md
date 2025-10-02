@@ -98,7 +98,6 @@ sequenceDiagram
    Create a `.env` file in the root directory:
    ```env
    ACCESS_TOKEN_SECRET=your_super_secret_key_here
-   REFRESH_TOKEN_SECRET=your_refresh_secret_key_here
    ```
    
    Or use the provided sample keys (for development only):
@@ -174,9 +173,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 Create a `.env` file with the following variables:
 
 ```env
-# JWT Secret Keys (KEEP THESE SECURE!)
+# JWT Secret Key (KEEP THIS SECURE!)
 ACCESS_TOKEN_SECRET=your_very_long_random_string_here
-REFRESH_TOKEN_SECRET=your_very_long_refresh_string_here
 
 # Optional: Port configuration
 PORT=3000
@@ -374,7 +372,6 @@ NODE_ENV=production node server.js
 - Add refresh token functionality
 - Implement user registration endpoint
 - Add password hashing with bcrypt
-- Create a web interface for testing
 - Add rate limiting
 - Implement token expiration
 - Add user roles and permissions
